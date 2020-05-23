@@ -1,0 +1,23 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+
+from sklearn.model_selection import train_test_split
+data = load_iris()
+y = data.target
+x = data.data
+pca = PCA(n_components=2)
+reduce_X = pca.fit_transform(x)
+xtrain,xtest,ytrain,ytest = train_test_split(reduce_X,y,random_state=0)
+
+from sklearn.neighbors import KNeighborsClassifier
+knn =  KNeighborsClassifier(n_neighbors=1)
+
+knn.fit(xtrain,ytrain)
+
+ypred = knn.predict(xtest)
+print ("test prediction:\n {}".format(ypred))
+
+print ("test score:{:.2f}".format(np.mean(ypred == ytest)))
